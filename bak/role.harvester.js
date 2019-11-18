@@ -15,7 +15,7 @@ module.exports = {
       let structure = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
         filter: (s) => s.energy < s.energyCapacity
       });
-      // if structures (extension) exists move to and transfer energy.
+      // if structures (extension) exists move to and transfer energy. 
       if (structure != undefined) {
         if (creep.transfer(structure, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
           creep.moveTo(structure, {visualizePathStyle: {stroke: '#ffaa00'}});
