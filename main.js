@@ -42,14 +42,13 @@ module.exports.loop = function () {
     let numberOfHarvesters = _.sum(Game.creeps, (c) => c.memory.role === 'harvester');
     let numberOfUpgraders = _.sum(Game.creeps, (c) => c.memory.role == 'upgrader');
     let numberOfBuilders = _.sum(Game.creeps, (c) => c.memory.role == 'builder');
-    let numberOfRoomHarvestersEAST = _.sum(Game.creeps, (c) =>
-        c.memory.role == 'roomHarvester' && c.memory.target == EAST);
+    let numberOfRoomHarvestersEAST = _.sum(Game.creeps, (c) => c.memory.target === 'W46S21');
     let numberOfRoomHarvestersSOUTH = _.sum(Game.creeps, (c) =>
-        c.memory.role == 'roomHarvester' && c.memory.target == SOUTH);
-    let sourceToggle = true;
-    let sourceNumber = 0
+        c.memory.role === 'roomHarvester' && c.memory.target === SOUTH);
     let name = undefined;
 
+    console.log("EAST " + numberOfRoomHarvestersEAST);
+    console.log("south " + numberOfRoomHarvestersSOUTH);
     if (numberOfHarvesters < minimumNumberOfHarvesters) { // if harvesters less than min harvesters
         // try to spawn one
         name = Game.spawns.Spawn1.createCreep([WORK,WORK,CARRY,MOVE,MOVE], undefined,
@@ -62,18 +61,13 @@ module.exports.loop = function () {
         // try to spawn one
         name = Game.spawns.Spawn1.createCreep([WORK,WORK,CARRY,MOVE, MOVE], undefined,
             { role: 'builder', working: false});
-    }
-    // if not enough EAST roomHarvesters
-    else if (numberOfRoomHarvestersEAST < minimumNumberOfRoomHarvestersEAST) {
+    } else if (numberOfRoomHarvestersEAST < minimumNumberOfRoomHarvestersEAST && numberOfRoomHarvestersEAST === 1) { // if not enough EAST roomHarvesters
         // try to spawn one
-        sourceToggle = !sourceToggle;
-        (sourceToggle) ? sourceNumber = 1 : sourceNumber = 0;
+        let sourceNumber = (numberOfRoomHarvestersEAST === 1) ? 1 : 0;
         name = Game.spawns.Spawn1.createCreep([WORK,WORK,CARRY,MOVE], undefined,
             { role: 'roomHarvester', working: false, home: HOME, target: EAST, source: sourceNumber});
-        console.log(sourceNumber);
-    }
-    // if not enough SOUTH roomHarvesters
-    else if (numberOfRoomHarvestersSOUTH < minimumNumberOfRoomHarvestersSOUTH) {
+        //console.log(sourceNumber);
+    } else if (numberOfRoomHarvestersSOUTH < minimumNumberOfRoomHarvestersSOUTH) { // if not enough SOUTH roomHarvesters
         // try to spawn one
         name = Game.spawns.Spawn1.createCreep([WORK,WORK,CARRY,MOVE], undefined,
             { role: 'roomHarvester', working: false, home: HOME, target: SOUTH});
