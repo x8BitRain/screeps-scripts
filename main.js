@@ -37,7 +37,7 @@ module.exports.loop = function () {
 
     if (numberOfHarvesters < minimumNumberOfHarvesters) { // if harvesters less than min harvesters
         // try to spawn one
-        name = Game.spawns.Spawn1.createCreep([WORK,WORK,CARRY,MOVE], undefined,
+        name = Game.spawns.Spawn1.createCreep([WORK,WORK,CARRY,MOVE,MOVE], undefined,
             { role: 'harvester', working: false});
     } else if (numberOfUpgraders < minimumNumberOfUpgraders) { // if upgraders less than min upgraders
         // try to spawn one
@@ -45,7 +45,7 @@ module.exports.loop = function () {
             { role: 'upgrader', working: false});
     } else if (numberOfBuilders < minimumNumberOfBuilders) { // if builders less than min builders
         // try to spawn one
-        name = Game.spawns.Spawn1.createCreep([WORK,WORK,CARRY,MOVE], undefined,
+        name = Game.spawns.Spawn1.createCreep([WORK,WORK,CARRY,MOVE, MOVE], undefined,
             { role: 'builder', working: false});
     } else {
         // else try to spawn a builder
