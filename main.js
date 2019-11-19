@@ -45,6 +45,8 @@ module.exports.loop = function () {
     let numberOfRoomHarvestersEAST = _.sum(Game.creeps, (c) => c.memory.target === 'W46S21');
     let numberOfRoomHarvestersSOUTH = _.sum(Game.creeps, (c) =>
         c.memory.role === 'roomHarvester' && c.memory.target === SOUTH);
+    let sourceState = _.sum(Game.creeps, (c) => c.memory.target === 'W46S21' && c.memory.source === 1);
+    console.log(sourceState);
     let name = undefined;
 
     console.log("EAST " + numberOfRoomHarvestersEAST);
@@ -63,10 +65,9 @@ module.exports.loop = function () {
             { role: 'builder', working: false});
     } else if (numberOfRoomHarvestersEAST < minimumNumberOfRoomHarvestersEAST && numberOfRoomHarvestersEAST === 1) { // if not enough EAST roomHarvesters
         // try to spawn one
-        let sourceNumber = (numberOfRoomHarvestersEAST === 1) ? 1 : 0;
+        let sourceNumber = (sourceState === 1) ? 0 : 1; // if a creep with source:1 exists, set next one to zero
         name = Game.spawns.Spawn1.createCreep([WORK,WORK,CARRY,MOVE], undefined,
-            { role: 'roomHarvester', working: false, home: HOME, target: EAST, source: sourceNumber});
-        //console.log(sourceNumber);
+            { role: 'roomHarvester', working: false, home: HOME, target: EAST, source: sourceNumber}); //source determines which energy source to harvest in other room.
     } else if (numberOfRoomHarvestersSOUTH < minimumNumberOfRoomHarvestersSOUTH) { // if not enough SOUTH roomHarvesters
         // try to spawn one
         name = Game.spawns.Spawn1.createCreep([WORK,WORK,CARRY,MOVE], undefined,
